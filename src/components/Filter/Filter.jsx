@@ -8,29 +8,34 @@ function Filter() {
 
   const {singleVote1, singleVote2, singleVote3, singleVote4} = useContext(DataContext)
   const [filterType, setFilterType] = useState("")
+  const [showCandidate, setShowCandidate] = useState(false)
 
   const allVotes = [singleVote1, singleVote2, singleVote3, singleVote4]
 
-  function filterBy(e){
+  function filterByPercentage(e){
     if(e.target.value === "percentage"){
-      const percentaged = allVotes.map(item => item * 100 / 4)
+      const totalSum = allVotes.reduce((prev,current) => prev + current)
+      const percentaged = allVotes.map(item => Math.floor((item / totalSum) *100) + "%")
       return setFilterType(percentaged.join());
     } else{
       return setFilterType(allVotes.join())
     }
+    }
 
+    function filterByCandidate(e){
+       return allVotes.map(item => item === e.target.value && setShowCandidate(true))
     }
     
 
   return (
     <div>
       <form action="">
-        <select name="filterType" id="filterType" onChange={filterBy}>
+        <select name="filterType" id="filterType" onChange={filterByPercentage}>
           <option value="">Please select</option>
           <option value="percentage">Percentage</option>
           <option value="numerical">Numerical</option>
         </select>
-        <select name="candidate" id="candidate">
+        <select name="candidate" id="candidate" onChange={filterByCandidate}>
           <option value={singleVote1}>Candidate 1</option>
           <option value={singleVote2}>Candidate 2</option>
           <option value={singleVote3}>Candidate 3</option>
@@ -39,8 +44,9 @@ function Filter() {
         <button type="submit">Filter</button>
       </form>
       <div>
+      {showCandidate}
       {filterType}
-        <IndividualVotes />
+      <IndividualVotes/>
       </div>
     </div>
   )
