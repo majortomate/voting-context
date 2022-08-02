@@ -1,55 +1,70 @@
 import { useContext, useState } from "react";
 import { DataContext } from "../../context/DataContext";
-import IndividualVotes from "../IndividualVotes/IndividualVotes";
+
 
 
 
 function Filter() {
 
-  const {singleVote1, singleVote2, singleVote3, singleVote4} = useContext(DataContext)
-  const [filterType, setFilterType] = useState("")
-  const [showCandidate, setShowCandidate] = useState(false)
+  const { state } = useContext(DataContext)
+  const [filterType, setFilterType] = useState()
+  const [filterCandidate, setFilterCandidate] = useState([])
+  const {total, ...candidates} = state
+  let values = Object.values(candidates)
+  let keys = Object.keys(candidates)
 
-  const allVotes = [singleVote1, singleVote2, singleVote3, singleVote4]
-
-  function filterByPercentage(e){
-    if(e.target.value === "percentage"){
-      const totalSum = allVotes.reduce((prev,current) => prev + current)
-      const percentaged = allVotes.map(item => Math.floor((item / totalSum) *100) + "%")
-      return setFilterType(percentaged.join());
+  function filterByType(e){
+    
+    if(e.target.value === 'percentage'){
+      const percentaged = values.map(item => Math.floor((Number(item) / total) * 100 ) + '%')
+      return setFilterType(percentaged.join(" "));
     } else{
-      return setFilterType(allVotes.join())
+
+      return setFilterType(Object.values(candidates))
     }
     }
 
+    
     function filterByCandidate(e){
-       return allVotes.map(item => item === e.target.value && setShowCandidate(true))
-    }
+
+        if(e.target.checked){
+          const result = keys.filter(item => item === e.target.id)
+          return setFilterCandidate(result)
+        } else {
+          console.log("not checked")
+        }
+
+      } 
+
+   
+
+
     
 
   return (
     <div>
-      <form action="">
-        <select name="filterType" id="filterType" onChange={filterByPercentage}>
-          <option value="">Please select</option>
-          <option value="percentage">Percentage</option>
-          <option value="numerical">Numerical</option>
-        </select>
-        <select name="candidate" id="candidate" onChange={filterByCandidate}>
-          <option value={singleVote1}>Candidate 1</option>
-          <option value={singleVote2}>Candidate 2</option>
-          <option value={singleVote3}>Candidate 3</option>
-          <option value={singleVote4}>Candidate 4</option>
-        </select>
-        <button type="submit">Filter</button>
-      </form>
-      <div>
-      {showCandidate}
+        <p>Filter by Type</p>
+          <input type="radio" name="filterByType" id="percentage" value="percentage" onChange={filterByType}/>
+          <label htmlFor="percentage">Percentage</label>
+          <input type="radio" name="filterByType" id="numerical" value="numerical" onChange={filterByType}/>
+          <label htmlFor="numerical">Numerical</label>
+        <p>Filter by Candidate</p>
+
+        {
+          keys.map(item => item ?
+            <div key={item}>
+              <input type="checkbox" name="filterByCandidate" id={item} onChange={filterByCandidate}/>
+              <label htmlFor={item}>{item}</label>
+            </div> : null
+            )
+        }
+    <div>
       {filterType}
-      <IndividualVotes/>
+      {filterCandidate}
+      
       </div>
     </div>
   )
 }
 
-export default Filter
+export default Filter;

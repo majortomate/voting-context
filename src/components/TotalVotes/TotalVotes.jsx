@@ -3,10 +3,13 @@ import { DataContext } from '../../context/DataContext'
 
 function TotalVotes() {
 
-  const {votes} = useContext(DataContext)
+  const { state } = useContext( DataContext )
+
+
   return (
-    <div>Total Votes: {votes}</div>
+
+    <div>Total Votes: {state.total} </div>
   )
 }
 
-export default TotalVotes
+export default TotalVotes;

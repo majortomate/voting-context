@@ -2,16 +2,16 @@ import { useContext } from "react";
 import { DataContext } from "../../context/DataContext";
 
 function IndividualVotes() {
-  const {singleVote1, singleVote2, singleVote3, singleVote4} = useContext(DataContext)
+  const { state } = useContext(DataContext)
 
   return (
     <div>
-      <p>Candidate 1 Votes: {singleVote1}</p>
-      <p>Candidate 2 Votes: {singleVote2}</p>
-      <p>Candidate 3 Votes: {singleVote3}</p>
-      <p>Candidate 4 Votes: {singleVote4}</p>
+      <p>Candidate 1 Votes: {state.candidate1}</p>
+      <p>Candidate 2 Votes: {state.candidate2}</p>
+      <p>Candidate 3 Votes: {state.candidate3}</p>
+      <p>Candidate 4 Votes: {state.candidate4}</p>
     </div>
   )
 }
 
-export default IndividualVotes
+export default IndividualVotes;

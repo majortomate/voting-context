@@ -4,7 +4,6 @@ import Candidate2 from './components/Candidates/Candidate2';
 import Candidate3 from './components/Candidates/Candidate3';
 import Candidate4 from './components/Candidates/Candidate4';
 import Filter from './components/Filter/Filter';
-import IndividualVotes from './components/IndividualVotes/IndividualVotes';
 import TotalVotes from './components/TotalVotes/TotalVotes';
 import { DataProvider } from './context/DataContext';
 
