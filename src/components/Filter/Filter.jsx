@@ -7,62 +7,40 @@ import { DataContext } from "../../context/DataContext";
 function Filter() {
 
   const { state } = useContext(DataContext)
-  const [filterType, setFilterType] = useState()
-  const [filterCandidate, setFilterCandidate] = useState([])
-  const {total, ...candidates} = state
+  const {total, percentage, ...candidates } = state
+  const {display, setDisplay} = useState(false)
   let values = Object.values(candidates)
-  let keys = Object.keys(candidates)
-
-  function filterByType(e){
     
-    if(e.target.value === 'percentage'){
-      const percentaged = values.map(item => Math.floor((Number(item) / total) * 100 ) + '%')
-      return setFilterType(percentaged.join(" "));
-    } else{
+  function handleCandidateVote1(e){
+   // eslint-disable-next-line no-unused-expressions
+   e.target.checked &&  { ...candidates, candidate1: {...state.candidate1, visible: true}}
+  }
 
-      return setFilterType(Object.values(candidates))
-    }
-    }
-
-    
-    function filterByCandidate(e){
-
-        if(e.target.checked){
-          const result = keys.filter(item => item === e.target.id)
-          return setFilterCandidate(result)
-        } else {
-          console.log("not checked")
-        }
-
-      } 
-
-   
-
-
-    
 
   return (
     <div>
         <p>Filter by Type</p>
-          <input type="radio" name="filterByType" id="percentage" value="percentage" onChange={filterByType}/>
+          <input type="radio" name="filterByType" id="percentage" value="percentage" />
           <label htmlFor="percentage">Percentage</label>
-          <input type="radio" name="filterByType" id="numerical" value="numerical" onChange={filterByType}/>
+          <input type="radio" name="filterByType" id="numerical" value="numerical" />
           <label htmlFor="numerical">Numerical</label>
         <p>Filter by Candidate</p>
-
-        {
-          keys.map(item => item ?
-            <div key={item}>
-              <input type="checkbox" name="filterByCandidate" id={item} onChange={filterByCandidate}/>
-              <label htmlFor={item}>{item}</label>
-            </div> : null
-            )
-        }
-    <div>
-      {filterType}
-      {filterCandidate}
-      
-      </div>
+            <div>
+              <input type="checkbox" id="candidate1" onChange={handleCandidateVote1}/>
+              <label htmlFor="candidate1">Candidate 1</label>
+            </div>
+            <div>
+              <input type="checkbox" id="candidate2"/>
+              <label htmlFor="candidate2">Candidate 2</label>
+            </div>
+            <div>
+              <input type="checkbox" id="candidate3"/>
+              <label htmlFor="candidate3">Candidate 3</label>
+            </div>
+            <div>
+              <input type="checkbox" id="candidate4"/>
+              <label htmlFor="candidate4">Candidate 4</label>
+            </div>
     </div>
   )
 }
