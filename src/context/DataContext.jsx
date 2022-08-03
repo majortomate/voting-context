@@ -47,7 +47,7 @@ function reducer(state, action){
     case 'total':
       return total;
     case 'reset':
-      return initialState;
+      return window.location.reload();
    default:
      return state;
  }
