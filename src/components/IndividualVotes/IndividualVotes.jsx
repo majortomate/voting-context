@@ -3,13 +3,20 @@ import { DataContext } from "../../context/DataContext";
 
 function IndividualVotes() {
   const { state } = useContext(DataContext)
+  const {total, percentage, ...candidates } = state
+  let values = Object.values(candidates)
 
   return (
     <div>
-      <p>Candidate 1 Votes: {state.candidate1}</p>
-      <p>Candidate 2 Votes: {state.candidate2}</p>
-      <p>Candidate 3 Votes: {state.candidate3}</p>
-      <p>Candidate 4 Votes: {state.candidate4}</p>
+    {
+      !percentage ?
+      values.map((candidate, index) => candidate.visible ?
+        <p style={{fontWeight:"400"}}key={index}>{`Candidate # ${index + 1}: ${candidate.votes}`}</p>
+        :null) :
+        values.map((candidate, index) => candidate.visible ?
+        <p key={index}>{`Candidate ${index + 1}: ${ candidate.votes ? Math.floor((candidate.votes/total)*100) : 0} %`}</p>
+        :null)
+    }
     </div>
   )
 }

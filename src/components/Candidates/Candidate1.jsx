@@ -9,9 +9,9 @@ function Candidate1() {
   }
 
    return (
-     <div>
+     <>
        <button onClick={handleClick}>Candidate 1</button>
-     </div>
+     </>
   )
 }
 export default Candidate1;
