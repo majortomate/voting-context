@@ -46,6 +46,8 @@ function reducer(state, action){
       return { ...state, percentage: !percentage};   
     case 'total':
       return total;
+    case 'reset':
+      return initialState;
    default:
      return state;
  }
